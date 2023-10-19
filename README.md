@@ -1,5 +1,5 @@
 # StbImageSharper
-[![NuGet](https://img.shields.io/nuget/v/StbImageSharper.svg)](https://www.nuget.org/packages/StbImageSharp/)
+[![NuGet](https://img.shields.io/nuget/v/StbImageSharper.svg)](https://www.nuget.org/packages/StbImageSharper/)
 ![Build & Publish](https://github.com/Jominist/StbImageSharper/workflows/Build%20&%20Publish/badge.svg)
 
 StbImageSharper is a fork of StbImageSharp with some fixes, modernizations and performance improvements.
