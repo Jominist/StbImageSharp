@@ -15,9 +15,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.x'
-    - name: Build StbImageSharp
+    - name: Build StbImageSharper
       run: dotnet build src\StbImageSharp.csproj --configuration Release
     - name: Install NuGet
       uses: NuGet/setup-nuget@v1
-    - name: Publish StbImageSharp to NuGet
-      run: nuget.exe push src\bin\Release\StbImageSharp.*.nupkg ${{secrets.NUGET_APIKEY}} -Source https://api.nuget.org/v3/index.json
+    - name: Publish StbImageSharper to NuGet
+      run: nuget.exe push src\bin\Release\StbImageSharper.*.nupkg ${{secrets.NUGET_APIKEY}} -Source https://api.nuget.org/v3/index.json

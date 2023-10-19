@@ -1,7 +1,8 @@
-# StbImageSharp
-[![NuGet](https://img.shields.io/nuget/v/StbImageSharp.svg)](https://www.nuget.org/packages/StbImageSharp/)
-![Build & Publish](https://github.com/StbSharp/StbImageSharp/workflows/Build%20&%20Publish/badge.svg)
-[![Chat](https://img.shields.io/discord/628186029488340992.svg)](https://discord.gg/ZeHxhCY)
+# StbImageSharper
+[![NuGet](https://img.shields.io/nuget/v/StbImageSharper.svg)](https://www.nuget.org/packages/StbImageSharp/)
+![Build & Publish](https://github.com/Jominist/StbImageSharper/workflows/Build%20&%20Publish/badge.svg)
+
+StbImageSharper is a fork of StbImageSharp with some fixes, modernizations and performance improvements.
 
 StbImageSharp is C# port of the stb_image.h, which is C library to load images in JPG, PNG, BMP, TGA, PSD, GIF and HDR formats.
 
@@ -46,12 +47,12 @@ Both code samples will try to load an image (JPG/PNG/BMP/TGA/PSD/GIF) located at
 If you are writing MonoGame application and would like to convert that data to the Texture2D. It could be done following way:
 ```c#
 Texture2D texture = new Texture2D(GraphicsDevice, image.Width, image.Height, false, SurfaceFormat.Color);
-texture.SetData(image.Data);
+texture.SetData(image.Data.ToArray());
 ```
 
 Or if you are writing WinForms app and would like StbSharp resulting bytes to be converted to the Bitmap. The sample code is:
 ```c#
-byte[] data = image.Data;
+Span<byte> data = image.Data;
 // Convert rgba to bgra
 for (int i = 0; i < x*y; ++i)
 {
@@ -72,7 +73,7 @@ Bitmap bmp = new Bitmap(_loadedImage.Width, _loadedImage.Height, PixelFormat.For
 BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, _loadedImage.Width, _loadedImage.Height), ImageLockMode.WriteOnly,
 	bmp.PixelFormat);
 
-Marshal.Copy(data, 0, bmpData.Scan0, bmpData.Stride*bmp.Height);
+data.CopyTo(bmpData.Scan0, bmpData.Stride*bmp.Height);
 bmp.UnlockBits(bmpData);
 ```
 
@@ -113,18 +114,15 @@ The byte-wise comprarison results are similar for StbImageSharp and Stb.Native.
 
 And performance comparison results are(times are total loading times):
 ```
-3 -- StbImageSharp - bmp: 34 ms, tga: 499 ms, png: 12028 ms, jpg: 2005 ms, psd: 0 ms, Total: 14566 ms
-3 -- Stb.Native - bmp: 23 ms, tga: 401 ms, png: 10271 ms, jpg: 1419 ms, psd: 0 ms, Total: 12114 ms
-3 -- ImageSharp - bmp: 24 ms, png: 10253 ms, jpg: 1782 ms, Total: 12059 ms
-3 -- Total files processed - bmp: 7, tga: 41, png: 568, jpg: 170, psd: 1, Total: 787
-3 -- StbImageSharp/Stb.Native matches/processed - 787/787
+24 -- StbImageSharp - psd: 0 ms, png: 10752 ms, jpg: 1315 ms, tga: 599 ms, bmp: 34 ms, Total: 12700 ms
+24 -- Stb.Native - psd: 2 ms, png: 9891 ms, jpg: 912 ms, tga: 412 ms, bmp: 25 ms, Total: 11242 ms
+24 -- ImageSharp - png: 4018 ms, jpg: 351 ms, tga: 93 ms, bmp: 4 ms, Total: 4477 ms
+24 -- Total files processed - bmp: 7, tga: 41, png: 568, jpg: 170, psd: 1, Total: 787
+24 -- StbImageSharp/Stb.Native matches/processed - 787/787
 ```
 
 # License
 Public Domain
-
-## Support
-[Discord](https://discord.gg/ZeHxhCY)
 
 ## Building From Source Code
 1. Clone this repo.
